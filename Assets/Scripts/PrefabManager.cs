@@ -7,6 +7,7 @@ public class PrefabManager : MonoBehaviour
     public static PrefabManager Instance;
 
     public Carriage Carriage;
+    public Cargo Cargo;
 
     private void Awake()
     {

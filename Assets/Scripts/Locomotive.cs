@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Carriage))]
-public class Locomotive : Player
+public class Locomotive : PlayerComponent
 {
     [SerializeField] private float _rotationSpeed = 10f;
     [SerializeField] private float _speed = 6f;
 
     private List<Carriage> _carriages = new List<Carriage>();
     private Rigidbody _rigidBody;
+
+
     protected override void Start()
     {
         base.Start();
@@ -53,6 +55,16 @@ public class Locomotive : Player
         _carriages[_carriages.Count - 1].PulledCarriage = carriage;
         carriage.gameObject.SetActive(false);
         _carriages.Add(carriage);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("Cargo collected");
+        other.gameObject.TryGetComponent<Cargo>(out var cargo);
+        if (cargo != null)
+        {
+            player.PlayerEvents.OnCargoCollected?.Invoke(cargo);
+        }
     }
 
 

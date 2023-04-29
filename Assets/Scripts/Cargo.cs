@@ -2,16 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Cargo : MonoBehaviour
 {
+    public enum CargoType
+    {
+        Red,
+        Blue,
+        Green,
+    }
 
-    public PlayerEvents PlayerEvents;
     void Start()
     {
         
     }
 
-    // Update is called once per frame
     void Update()
     {
         

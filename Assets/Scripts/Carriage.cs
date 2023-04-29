@@ -1,8 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Carriage : Player
+public class Carriage : PlayerComponent
 {
 
     private float _delayCoef = 0.45f;
@@ -10,10 +11,15 @@ public class Carriage : Player
     public Carriage PulledCarriage;
     private Queue<Marker> _markers = new Queue<Marker>();
 
-
     protected override void Start()
     {
         base.Start();
+        player.PlayerEvents.OnCargoCollected += OnCargoCollected;
+    }
+
+    private void OnCargoCollected(Cargo cargo)
+    {
+        Debug.Log("Cargo event received!");
     }
 
     void FixedUpdate()
