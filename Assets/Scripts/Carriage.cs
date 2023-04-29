@@ -6,7 +6,7 @@ using UnityEngine;
 public class Carriage : PlayerComponent
 {
 
-    private float _delayCoef = 0.45f;
+    private float _delayCoef = 0.3f;
 
     public Carriage PulledCarriage;
     private Queue<Marker> _markers = new Queue<Marker>();
@@ -14,10 +14,11 @@ public class Carriage : PlayerComponent
     protected override void Start()
     {
         base.Start();
-        player.PlayerEvents.OnCargoCollected += OnCargoCollected;
+        player.PlayerEvents.OnCargoCollected += SetCargo;
+        
     }
 
-    private void OnCargoCollected(Cargo cargo)
+    private void SetCargo(Cargo cargo)
     {
         Debug.Log("Cargo event received!");
     }
@@ -45,6 +46,7 @@ public class Carriage : PlayerComponent
                 _markers.Dequeue();
             }
         }
+
     }
 
     public struct Marker

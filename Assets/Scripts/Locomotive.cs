@@ -55,11 +55,11 @@ public class Locomotive : PlayerComponent
         _carriages[_carriages.Count - 1].PulledCarriage = carriage;
         carriage.gameObject.SetActive(false);
         _carriages.Add(carriage);
+        player.PlayerEvents.OnCargoHolderAdded?.Invoke(carriage.GetComponent<CargoHolder>());
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Cargo collected");
         other.gameObject.TryGetComponent<Cargo>(out var cargo);
         if (cargo != null)
         {
