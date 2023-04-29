@@ -11,7 +11,7 @@ public class CargoHolder : PlayerComponent
     protected override void Awake()
     {
         base.Awake();
-        _renderer = GetComponentInChildren<Renderer>();
+        _renderer = GetComponentInChildren<MeshRenderer>();
 
     }
 
