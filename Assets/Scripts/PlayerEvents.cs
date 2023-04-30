@@ -4,5 +4,6 @@ public struct PlayerEvents
 {
     public Action<Cargo> OnCargoCollected;
     public Action<CargoHolder> OnCargoHolderAdded;
+    public Action<OrderComponent> OnOrderCompleted;
 
 }

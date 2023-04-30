@@ -5,7 +5,7 @@ using static Cargo;
 
 public class CargoHolder : PlayerComponent
 {
-    [SerializeField] public readonly Vector3 CargoPosition;
+    public Vector3 CargoPosition;
     private Renderer _renderer;
 
     protected override void Awake()

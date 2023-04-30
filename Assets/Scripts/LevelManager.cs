@@ -61,8 +61,19 @@ public partial class LevelManager : MonoBehaviour
     private List<Cargo.CargoType> _possibleCargoTypes = new List<Cargo.CargoType>();
     private List<Building> _buildings = new List<Building>();
 
+    private Player Player;
+
+    private void Awake()
+    {
+        Player = FindAnyObjectByType<Player>();
+    }
+
     void Start()
     {
+
+        Player.PlayerEvents.OnCargoCollected += HandlePlayerCargoCollection;
+        Player.PlayerEvents.OnOrderCompleted += HandlePlayerOrderCompleted;
+
         for (int i = 0; i < Enum.GetNames(typeof(Cargo.CargoType)).Length; i++)
         {
             var cargoType = (Cargo.CargoType)i;
@@ -71,6 +82,17 @@ public partial class LevelManager : MonoBehaviour
                 _possibleCargoTypes.Add(cargoType);
             }
         }
+    }
+
+    private void HandlePlayerCargoCollection(Cargo cargo)
+    {
+        _cargos.Remove(cargo);
+        _possibleCargoTypes.Add(cargo.CurrentCargoType);
+        
+    }
+
+    private void HandlePlayerOrderCompleted(OrderComponent obj)
+    {
     }
 
     void Update()

@@ -21,7 +21,7 @@ public class Cargo : MonoBehaviour
 
     private void Awake()
     {
-        _renderer = GetComponent<Renderer>();
+        _renderer = GetComponentInChildren<Renderer>();
     }
 
     void Start()
