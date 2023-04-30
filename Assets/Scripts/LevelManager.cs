@@ -6,43 +6,6 @@ using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class OrderManager
-{
-    public static OrderManager Instance;
-
-    public struct OrderData
-    {
-
-    }
-}
-
-public class Timer
-{
-    public bool IsPassed => _isPassed;
-
-    public float TimeLimit;
-    private float _timePassed;
-    private bool _isPassed;
-    public Timer(float timeLimit)
-    {
-        TimeLimit = timeLimit;
-    }
-    public void Tick(float dt)
-    {
-        _timePassed += dt;
-        if(_timePassed > TimeLimit)
-        {
-            _isPassed = true;
-        }
-    }
-
-    public void Reset()
-    {
-        _timePassed = 0;
-        _isPassed = false;
-    }
-}
-
 public partial class LevelManager : MonoBehaviour
 {
     public LevelEvents LE = new LevelEvents();
@@ -100,7 +63,7 @@ public partial class LevelManager : MonoBehaviour
         _cargoTimer.Tick(Time.deltaTime);
         _buildingTimer.Tick(Time.deltaTime);
 
-        if(_cargoTimer.IsPassed && _cargoLimit * Enum.GetNames(typeof(Cargo.CargoType)).Length > _cargos.Count)
+        if(_cargoTimer.IsPassed && _possibleCargoTypes.Count > 0)
         {
             _cargoTimer.Reset();
             AddRandomCargoForLevel();
@@ -143,7 +106,6 @@ public partial class LevelManager : MonoBehaviour
     private void AddRandomCargoForLevel()
     {
         var color = _possibleCargoTypes[Random.Range(0, _possibleCargoTypes.Count)];
-        _possibleCargoTypes.Remove(color);
 
         Vector3 possiblePosition;
         int tries = 0;
@@ -155,6 +117,8 @@ public partial class LevelManager : MonoBehaviour
         if(tries < 50)
         {
             _cargos.Add(AddNewCargo(possiblePosition, color));
+            _possibleCargoTypes.Remove(color);
+
         }
     }
 

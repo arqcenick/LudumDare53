@@ -64,10 +64,9 @@ public class Locomotive : PlayerComponent
         
         if (cargo != null)
         {
-            cargo.SetCollidersEnabled(false);
 
             Debug.Log("Cargo event fired!");
-            player.PlayerEvents.OnCargoCollected?.Invoke(cargo);
+            player.PlayerEvents.OnCargoHit?.Invoke(cargo);
         }
     }
 

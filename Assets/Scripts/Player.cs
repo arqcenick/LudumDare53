@@ -6,14 +6,4 @@ public class Player : MonoBehaviour
 {
 
     public PlayerEvents PlayerEvents;
-    //void Start()
-    //{
-        
-    //}
-
-    //// Update is called once per frame
-    //void Update()
-    //{
-        
-    //}
 }

@@ -22,7 +22,7 @@ public class TrainCargoManager : PlayerComponent
     {
         base.Start();
         player.PlayerEvents.OnCargoHolderAdded += HandleCargoHolderAddition;
-        player.PlayerEvents.OnCargoCollected += HandleCargoCollection;
+        player.PlayerEvents.OnCargoHit += HandleCargoHit;
     }
 
     private void HandleCargoHolderAddition(CargoHolder cargoHolder)
@@ -31,11 +31,13 @@ public class TrainCargoManager : PlayerComponent
         _cargoHolders.Add(cargoHolder);
     }
 
-    private void HandleCargoCollection(Cargo cargo)
+    private void HandleCargoHit(Cargo cargo)
     {
 
         if (_cargoCapacity > 0)
         {
+            cargo.SetCollidersEnabled(false);
+
             if (cargos.Count == _cargoCapacity)
             {         
                 var lastCargo = cargos.Dequeue();
@@ -63,6 +65,8 @@ public class TrainCargoManager : PlayerComponent
                 c.Sequence = seq;
                 //_cargoHolders[i].SetCargoView(cargoList[cargoList.Count - i - 1]);
             }
+
+            player.PlayerEvents.OnCargoCollected?.Invoke(cargo);
         }
 
         
