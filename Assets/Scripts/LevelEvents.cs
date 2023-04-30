@@ -8,6 +8,7 @@ public partial class LevelManager
         public Action OnDeliveryFailed;
         public Action<float> OnDayProgressed;
         public Action<int> OnDayPassed;
+        public Action OnPlayerDeath;
 
 
         public Action<OrderComponent> OnOrderCreated;

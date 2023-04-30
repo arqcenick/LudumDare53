@@ -1,14 +1,20 @@
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 using UnityEngine.UI;
 using static Cargo;
+using Color = UnityEngine.Color;
 
 public class OrderUIView : MonoBehaviour
 {
     [SerializeField] private List<Image> Indicators = new List<Image>();
     [SerializeField] private Image _dialogueBox;
+    [SerializeField] private Image _durationBar;
+    [SerializeField] private Color _endColor;
+
 
     private RectTransform _rectTransform;
     private OrderComponent _orderComponent;
@@ -69,6 +75,10 @@ public class OrderUIView : MonoBehaviour
     {
         _orderComponent = orderComponent;
         SetOrderCargoTypes(orderComponent.OrderData.CargoTypes);
+        _durationBar.fillAmount = 1;
+        _durationBar.DOFillAmount(0, orderComponent.OrderData.TimeLimit).SetEase(Ease.Linear);
+        ColorUtility.TryParseHtmlString("F15E60", out var color);
+        _durationBar.DOColor(_endColor, orderComponent.OrderData.TimeLimit);
 
     }
 
@@ -85,5 +95,6 @@ public class OrderUIView : MonoBehaviour
     void Update()
     {
         _rectTransform.position = Camera.main.WorldToScreenPoint(_orderComponent.transform.position);
+
     }
 }

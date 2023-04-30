@@ -100,6 +100,7 @@ public class TrainCargoManager : PlayerComponent
             c.Sequence = seq;
         }
 
+        player.PlayerEvents.OnOrderCompleted?.Invoke(orderComponent);
 
 
     }

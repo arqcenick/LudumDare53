@@ -9,6 +9,7 @@ TagManager:
   - Blocker
   - CargoDropoff
   - Death
+  - Carriage
   layers:
   - Default
   - TransparentFX

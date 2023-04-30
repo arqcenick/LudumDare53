@@ -8,6 +8,7 @@ public class OrderUIManager : MonoBehaviour
 
 
     [SerializeField] private OrderUIView _orderUI;
+    private Dictionary<OrderComponent, OrderUIView> _views = new Dictionary<OrderComponent, OrderUIView>();
     // Start is called before the first frame update
     void Start()
     {
@@ -18,7 +19,7 @@ public class OrderUIManager : MonoBehaviour
 
     private void HandleOrderCompletion(OrderComponent orderComponent)
     {
-        
+        Destroy(_views[orderComponent].gameObject);
     }
 
     private void HandleOrderCreation(OrderComponent orderComponent)
@@ -27,6 +28,7 @@ public class OrderUIManager : MonoBehaviour
         RectTransform rect = orderUI.GetComponent<RectTransform>();
         rect.position = Camera.main.WorldToScreenPoint(orderComponent.transform.position);
         orderUI.SetOrderComponent(orderComponent);
+        _views[orderComponent] = orderUI;   
 
     }
 

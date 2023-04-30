@@ -38,6 +38,7 @@ public partial class LevelManager : MonoBehaviour
         LE.OnDayPassed?.Invoke(_level);
         Player.PlayerEvents.OnCargoCollected += HandlePlayerCargoCollection;
         Player.PlayerEvents.OnOrderCompleted += HandlePlayerOrderCompleted;
+        Player.PlayerEvents.OnPlayerDeathByCollision += HandlePlayerDeath;
 
         for (int i = 0; i < Enum.GetNames(typeof(Cargo.CargoType)).Length; i++)
         {
@@ -49,6 +50,11 @@ public partial class LevelManager : MonoBehaviour
         }
     }
 
+    private void HandlePlayerDeath()
+    {
+        LE.OnPlayerDeath?.Invoke();
+    }
+
     private void HandlePlayerCargoCollection(Cargo cargo)
     {
         _cargos.Remove(cargo);
@@ -58,6 +64,7 @@ public partial class LevelManager : MonoBehaviour
 
     private void HandlePlayerOrderCompleted(OrderComponent obj)
     {
+        LE.OnOrderCompleted?.Invoke(obj);
     }
 
     void Update()

@@ -114,6 +114,11 @@ public class Locomotive : PlayerComponent
         {
             player.PlayerEvents.OnPlayerDeathByCollision?.Invoke();
         }
+        else if(collision.gameObject.CompareTag("Carriage"))
+        {
+            player.PlayerEvents.OnPlayerDeathByCollision?.Invoke();
+
+        }
     }
 
 
