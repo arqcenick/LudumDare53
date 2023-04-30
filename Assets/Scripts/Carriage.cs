@@ -14,13 +14,7 @@ public class Carriage : PlayerComponent
     protected override void Start()
     {
         base.Start();
-        player.PlayerEvents.OnCargoCollected += SetCargo;
         
-    }
-
-    private void SetCargo(Cargo cargo)
-    {
-        //Debug.Log("Cargo event received!");
     }
 
     void FixedUpdate()

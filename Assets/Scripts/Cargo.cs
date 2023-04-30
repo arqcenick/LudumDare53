@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ public class Cargo : MonoBehaviour
     public CargoType CurrentCargoType => _type;
     private CargoType _type;
     private Renderer _renderer;
+    public Sequence Sequence;
 
     public enum CargoType
     {

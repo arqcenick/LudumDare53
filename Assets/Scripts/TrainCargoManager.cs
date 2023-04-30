@@ -37,11 +37,15 @@ public class TrainCargoManager : PlayerComponent
         if (_cargoCapacity > 0)
         {
             if (cargos.Count == _cargoCapacity)
-            {
+            {         
                 var lastCargo = cargos.Dequeue();
+                if(lastCargo.Sequence != null)
+                {
+                    lastCargo.Sequence.Kill();
+                }
                 lastCargo.transform.parent = null;
-
-                lastCargo.transform.DOJump(lastCargo.transform.position -lastCargo.transform.forward * 0.5f, 5,1, 0.75f).OnComplete(() => { Destroy(lastCargo.gameObject); });
+                Vector3 position = lastCargo.transform.position - lastCargo.transform.forward * 0.5f;
+                lastCargo.transform.DOJump(position , 5,1, 0.75f).OnComplete(() => { Destroy(lastCargo.gameObject); });
 
             }
             cargos.Enqueue(cargo);
@@ -51,10 +55,12 @@ public class TrainCargoManager : PlayerComponent
             for (int i = 0; i < cargoList.Count; i++)
             {
                 var c = cargoList[cargoList.Count - i - 1];
-
+                var seq = DOTween.Sequence();
                 c.transform.SetParent(_cargoHolders[i].transform);
-                c.transform.DOLocalJump(_cargoHolders[i].CargoPosition, 5, 1, 0.8f);
-                c.transform.DOLocalRotate(Vector3.zero, 1);
+                seq.Append(c.transform.DOLocalJump(_cargoHolders[i].CargoPosition, 5, 1, 0.8f));
+                seq.Join(c.transform.DOLocalRotate(Vector3.zero, 1));
+
+                c.Sequence = seq;
                 //_cargoHolders[i].SetCargoView(cargoList[cargoList.Count - i - 1]);
             }
         }
