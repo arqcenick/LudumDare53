@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -21,9 +20,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         _levelManager = FindFirstObjectByType<LevelManager>();
-
         _levelManager.LE.OnDeliveryComplete += HandleDeliveryCompletion;
-
     }
 
     private void HandleDeliveryCompletion()
