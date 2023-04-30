@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class OrderComponent : MonoBehaviour
 {
-    private List<Cargo.CargoType> _cargoTypes = new List<Cargo.CargoType>();
+    internal OrderManager.OrderData OrderData;
 
     void Start()
     {

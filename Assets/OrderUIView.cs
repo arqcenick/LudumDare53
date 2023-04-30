@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,9 @@ public class OrderUIView : MonoBehaviour
 {
     [SerializeField] private List<Image> Indicators = new List<Image>();
     [SerializeField] private Image _dialogueBox;
+
+    private RectTransform _rectTransform;
+    private OrderComponent _orderComponent;
     public void SetOrderCargoTypes(List<Cargo.CargoType> cargoTypes)
     {
         if(cargoTypes.Count == 0)
@@ -32,7 +36,11 @@ public class OrderUIView : MonoBehaviour
         }
 
         int count = 0;
-        foreach (var cargoType in cargoTypes)
+
+        var reversed = new List<Cargo.CargoType>(cargoTypes);
+        reversed.Reverse();
+
+        foreach (var cargoType in reversed)
         {
             Color color = Color.white;
 
@@ -57,14 +65,25 @@ public class OrderUIView : MonoBehaviour
 
     }
 
+    internal void SetOrderComponent(OrderComponent orderComponent)
+    {
+        _orderComponent = orderComponent;
+        SetOrderCargoTypes(orderComponent.OrderData.CargoTypes);
+
+    }
+
+    private void Awake()
+    {
+        _rectTransform = GetComponent<RectTransform>();
+    }
+
     void Start()
     {
-        SetOrderCargoTypes(new List<CargoType>()); //Temporary
 
     }
 
     void Update()
     {
-        
+        _rectTransform.position = Camera.main.WorldToScreenPoint(_orderComponent.transform.position);
     }
 }

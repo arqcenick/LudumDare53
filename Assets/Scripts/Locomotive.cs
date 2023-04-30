@@ -60,14 +60,29 @@ public class Locomotive : PlayerComponent
 
     private void OnTriggerEnter(Collider other)
     {
-        other.gameObject.TryGetComponent<Cargo>(out var cargo);
-        
-        if (cargo != null)
-        {
 
-            Debug.Log("Cargo event fired!");
-            player.PlayerEvents.OnCargoHit?.Invoke(cargo);
+        if(other.gameObject.CompareTag("Cargo"))
+        {
+            other.gameObject.TryGetComponent<Cargo>(out var cargo);
+
+            if (cargo != null)
+            {
+
+                Debug.Log("Cargo event fired!");
+                player.PlayerEvents.OnCargoHit?.Invoke(cargo);
+            }
         }
+
+        else if(other.gameObject.CompareTag("CargoDropoff"))
+        {
+            var orderComponent = other.gameObject.GetComponentInParent<OrderComponent>();
+            if(orderComponent != null)
+            {
+                player.PlayerEvents.OnOrderDropoffPointHit?.Invoke(orderComponent);
+            }
+        }
+
+
     }
 
 

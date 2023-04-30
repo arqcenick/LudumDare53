@@ -651,7 +651,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2858a51a0f1370b458f712f26153072a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Indicators: []
+  Indicators:
+  - {fileID: 4851299227988531735}
+  - {fileID: 857670665}
+  - {fileID: 1664485700}
+  - {fileID: 669682134}
+  - {fileID: 2021244738}
+  - {fileID: 704585949}
   _dialogueBox: {fileID: 4851299228767150020}
 --- !u!1 &4851299228767150022
 GameObject:
@@ -682,7 +688,7 @@ RectTransform:
   m_GameObject: {fileID: 4851299228767150022}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.4, y: 0.4, z: 1}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4851299227907042202}
@@ -691,8 +697,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -40.360016, y: -5.7227}
-  m_SizeDelta: {x: 180, y: 175.73}
+  m_AnchoredPosition: {x: -40.360016, y: 26.4}
+  m_SizeDelta: {x: 180, y: 130}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &4851299228767150021
 CanvasRenderer:

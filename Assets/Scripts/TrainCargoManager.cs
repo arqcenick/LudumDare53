@@ -1,6 +1,7 @@
 ﻿using DG.Tweening;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ public class TrainCargoManager : PlayerComponent
 {
 
     private int _cargoCapacity;
-    private Queue<Cargo> cargos = new Queue<Cargo>();
+    private List<Cargo> cargos = new List<Cargo>();
     private List<CargoHolder> _cargoHolders = new List<CargoHolder>();
 
 
@@ -23,6 +24,62 @@ public class TrainCargoManager : PlayerComponent
         base.Start();
         player.PlayerEvents.OnCargoHolderAdded += HandleCargoHolderAddition;
         player.PlayerEvents.OnCargoHit += HandleCargoHit;
+        player.PlayerEvents.OnOrderDropoffPointHit += HandleCargoDropoffHit;
+    }
+
+    private void HandleCargoDropoffHit(OrderComponent orderComponent)
+    {
+        var orderTypes = orderComponent.OrderData.CargoTypes;
+        if(cargos.Count < orderTypes.Count)
+        {
+            return;
+        }
+        bool finalResult = false;
+        int matchingIndex = -1;
+
+        for (int i = 0; i < cargos.Count - orderTypes.Count + 1; i++)
+        {
+            bool result = true;
+            for (int j = 0; j < orderTypes.Count; j++)
+            {
+                result &= cargos[i+j].CurrentCargoType == orderTypes[j];
+            }
+
+            if(result)
+            {
+                matchingIndex = i;
+            }
+
+            finalResult |= result;
+        }
+
+        if(!finalResult)
+        {
+            return;
+        }
+
+        List<Cargo> removeList = new List<Cargo>();
+
+        for (int i = matchingIndex; i < matchingIndex + orderTypes.Count; i++)
+        {
+            var deliveredCargo = cargos[i];
+            if (deliveredCargo.Sequence != null)
+            {
+                deliveredCargo.Sequence.Kill();
+            }
+            deliveredCargo.transform.parent = null;
+            Vector3 position = orderComponent.transform.position;
+            deliveredCargo.transform.DOJump(position, 5, 1, 0.75f).OnComplete(() => { Destroy(deliveredCargo.gameObject); });
+            removeList.Add(deliveredCargo);
+        }
+
+        foreach (var cargo in removeList)
+        {
+            cargos.Remove(cargo);
+        }
+
+
+
     }
 
     private void HandleCargoHolderAddition(CargoHolder cargoHolder)
@@ -39,9 +96,10 @@ public class TrainCargoManager : PlayerComponent
             cargo.SetCollidersEnabled(false);
 
             if (cargos.Count == _cargoCapacity)
-            {         
-                var lastCargo = cargos.Dequeue();
-                if(lastCargo.Sequence != null)
+            {
+                var lastCargo = cargos[0];
+                cargos.RemoveAt(0);
+                if (lastCargo.Sequence != null)
                 {
                     lastCargo.Sequence.Kill();
                 }
@@ -50,7 +108,7 @@ public class TrainCargoManager : PlayerComponent
                 lastCargo.transform.DOJump(position , 5,1, 0.75f).OnComplete(() => { Destroy(lastCargo.gameObject); });
 
             }
-            cargos.Enqueue(cargo);
+            cargos.Add(cargo);
 
             var cargoList = cargos.AsReadOnlyList();
 
@@ -63,7 +121,6 @@ public class TrainCargoManager : PlayerComponent
                 seq.Join(c.transform.DOLocalRotate(Vector3.zero, 1));
 
                 c.Sequence = seq;
-                //_cargoHolders[i].SetCargoView(cargoList[cargoList.Count - i - 1]);
             }
 
             player.PlayerEvents.OnCargoCollected?.Invoke(cargo);

@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class OrderUIManager : MonoBehaviour
 {
+
+
+    [SerializeField] private OrderUIView _orderUI;
     // Start is called before the first frame update
     void Start()
     {
@@ -13,12 +16,18 @@ public class OrderUIManager : MonoBehaviour
 
     }
 
-    private void HandleOrderCompletion(OrderComponent obj)
+    private void HandleOrderCompletion(OrderComponent orderComponent)
     {
+        
     }
 
-    private void HandleOrderCreation(OrderComponent obj)
+    private void HandleOrderCreation(OrderComponent orderComponent)
     {
+        var orderUI = Instantiate<OrderUIView>(_orderUI, transform);
+        RectTransform rect = orderUI.GetComponent<RectTransform>();
+        rect.position = Camera.main.WorldToScreenPoint(orderComponent.transform.position);
+        orderUI.SetOrderComponent(orderComponent);
+
     }
 
     // Update is called once per frame

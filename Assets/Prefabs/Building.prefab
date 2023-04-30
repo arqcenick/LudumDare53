@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3458705759111922336}
   m_Layer: 8
   m_Name: Stop
-  m_TagString: Untagged
+  m_TagString: CargoDropoff
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -95,12 +95,18 @@ public partial class LevelManager : MonoBehaviour
     private Building AddNewBuilding(Vector3 position, Quaternion rotation)
     {
         var building = Instantiate<Building>(PrefabManager.Instance.Building, position, rotation);
+        AddOrderToBuildingForLevel(building);
         return building;
     }
 
-    private void AddOrderForLevel()
+    private void AddOrderToBuildingForLevel(Building building)
     {
-        
+        var orderComponent = building.GetComponent<OrderComponent>();
+
+        orderComponent.OrderData = OrderManager.CreateNewOrder(Random.Range(1, 6));
+
+        LE.OnOrderCreated?.Invoke(orderComponent);
+
     }
 
     private void AddRandomCargoForLevel()
