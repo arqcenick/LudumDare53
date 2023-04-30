@@ -7,6 +7,7 @@ public struct PlayerEvents
     public Action<CargoHolder> OnCargoHolderAdded;
     public Action<OrderComponent> OnOrderCompleted;
     public Action<OrderComponent> OnOrderDropoffPointHit;
+    public Action OnPlayerDeathByCollision;
 
 
 }

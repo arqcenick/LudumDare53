@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,13 +12,22 @@ public class Locomotive : PlayerComponent
     private List<Carriage> _carriages = new List<Carriage>();
     private Rigidbody _rigidBody;
 
+    private bool _isAlive = true;
+
 
     protected override void Start()
     {
         base.Start();
+        _isAlive = true;
         _rigidBody = GetComponent<Rigidbody>();
         _carriages.Add(GetComponent<Carriage>());
+        player.PlayerEvents.OnPlayerDeathByCollision += HandlePlayerDeath;
 
+    }
+
+    private void HandlePlayerDeath()
+    {
+        enabled = false;
     }
 
     private void Update()
@@ -30,6 +40,10 @@ public class Locomotive : PlayerComponent
 
     void FixedUpdate()
     {
+        if(!_isAlive)
+        {
+            return;
+        }
         if (Input.GetKey(KeyCode.D))
         {
             transform.Rotate(0, Time.fixedDeltaTime * _rotationSpeed, 0);
@@ -83,6 +97,15 @@ public class Locomotive : PlayerComponent
         }
 
 
+
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("Death"))
+        {
+            player.PlayerEvents.OnPlayerDeathByCollision?.Invoke();
+        }
     }
 
 
