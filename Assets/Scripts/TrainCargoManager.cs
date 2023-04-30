@@ -73,9 +73,31 @@ public class TrainCargoManager : PlayerComponent
             removeList.Add(deliveredCargo);
         }
 
+        //for (int i = matchingIndex-1; i >= 0; i--)
+        //{
+        //    var c = cargos[i];
+        //    var seq = DOTween.Sequence();
+        //    c.transform.SetParent(_cargoHolders[i].transform);
+        //    seq.Append(c.transform.DOLocalJump(_cargoHolders[i].CargoPosition, 5, 1, 0.8f));
+        //    seq.Join(c.transform.DOLocalRotate(Vector3.zero, 1));
+
+        //    c.Sequence = seq;
+        //}
+
         foreach (var cargo in removeList)
         {
             cargos.Remove(cargo);
+        }
+
+        for (int i = 0; i < matchingIndex; i++)
+        {
+            var c = cargos[cargos.Count - i - 1];
+            var seq = DOTween.Sequence();
+            c.transform.SetParent(_cargoHolders[i].transform);
+            seq.Append(c.transform.DOLocalJump(_cargoHolders[i].CargoPosition, 5, 1, 0.8f));
+            seq.Join(c.transform.DOLocalRotate(Vector3.zero, 1));
+
+            c.Sequence = seq;
         }
 
 
@@ -110,11 +132,11 @@ public class TrainCargoManager : PlayerComponent
             }
             cargos.Add(cargo);
 
-            var cargoList = cargos.AsReadOnlyList();
+           
 
-            for (int i = 0; i < cargoList.Count; i++)
+            for (int i = 0; i < cargos.Count; i++)
             {
-                var c = cargoList[cargoList.Count - i - 1];
+                var c = cargos[cargos.Count - i - 1];
                 var seq = DOTween.Sequence();
                 c.transform.SetParent(_cargoHolders[i].transform);
                 seq.Append(c.transform.DOLocalJump(_cargoHolders[i].CargoPosition, 5, 1, 0.8f));
