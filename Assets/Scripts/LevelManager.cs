@@ -18,6 +18,7 @@ public partial class LevelManager : MonoBehaviour
 
     private Timer _cargoTimer = new Timer(1f);
     private Timer _buildingTimer = new Timer(3f);
+    private Timer _levelTimer = new Timer(10f);
 
 
     private List<Cargo> _cargos = new List<Cargo>();
@@ -33,7 +34,8 @@ public partial class LevelManager : MonoBehaviour
 
     void Start()
     {
-
+        _level = 1;
+        LE.OnDayPassed?.Invoke(_level);
         Player.PlayerEvents.OnCargoCollected += HandlePlayerCargoCollection;
         Player.PlayerEvents.OnOrderCompleted += HandlePlayerOrderCompleted;
 
@@ -62,8 +64,11 @@ public partial class LevelManager : MonoBehaviour
     {
         _cargoTimer.Tick(Time.deltaTime);
         _buildingTimer.Tick(Time.deltaTime);
+        _levelTimer.Tick(Time.deltaTime);
 
-        if(_cargoTimer.IsPassed && _possibleCargoTypes.Count > 0)
+        LE.OnDayProgressed?.Invoke(_levelTimer.TimePassed / _levelTimer.TimeLimit);
+
+        if (_cargoTimer.IsPassed && _possibleCargoTypes.Count > 0)
         {
             _cargoTimer.Reset();
             AddRandomCargoForLevel();
@@ -74,6 +79,15 @@ public partial class LevelManager : MonoBehaviour
             _buildingTimer.Reset();
             AddBuildingForLevel();
         }
+
+        if (_levelTimer.IsPassed)
+        {
+            _level++;
+            _levelTimer.Reset();
+            Player.PlayerEvents.OnDayPassed?.Invoke();
+            LE.OnDayPassed?.Invoke(_level);
+        }
+
     }
 
     private void AddBuildingForLevel()

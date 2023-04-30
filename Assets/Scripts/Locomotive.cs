@@ -22,7 +22,15 @@ public class Locomotive : PlayerComponent
         _rigidBody = GetComponent<Rigidbody>();
         _carriages.Add(GetComponent<Carriage>());
         player.PlayerEvents.OnPlayerDeathByCollision += HandlePlayerDeath;
+        player.PlayerEvents.OnDayPassed += HandleDayPassed;
 
+        AddCarriage();
+
+    }
+
+    private void HandleDayPassed()
+    {
+        AddCarriage();
     }
 
     private void HandlePlayerDeath()

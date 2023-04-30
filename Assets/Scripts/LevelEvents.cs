@@ -7,6 +7,8 @@ public partial class LevelManager
         public Action OnDeliveryComplete;
         public Action OnDeliveryFailed;
         public Action<float> OnDayProgressed;
+        public Action<int> OnDayPassed;
+
 
         public Action<OrderComponent> OnOrderCreated;
         public Action<OrderComponent> OnOrderCompleted;

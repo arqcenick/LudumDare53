@@ -2,6 +2,8 @@
 {
     public bool IsPassed => _isPassed;
 
+    public float TimePassed => _timePassed;
+
     public float TimeLimit;
     private float _timePassed;
     private bool _isPassed;
