@@ -6,6 +6,43 @@ using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+public class OrderManager
+{
+    public static OrderManager Instance;
+
+    public struct OrderData
+    {
+
+    }
+}
+
+public class Timer
+{
+    public bool IsPassed => _isPassed;
+
+    public float TimeLimit;
+    private float _timePassed;
+    private bool _isPassed;
+    public Timer(float timeLimit)
+    {
+        TimeLimit = timeLimit;
+    }
+    public void Tick(float dt)
+    {
+        _timePassed += dt;
+        if(_timePassed > TimeLimit)
+        {
+            _isPassed = true;
+        }
+    }
+
+    public void Reset()
+    {
+        _timePassed = 0;
+        _isPassed = false;
+    }
+}
+
 public partial class LevelManager : MonoBehaviour
 {
     public LevelEvents LE = new LevelEvents();
@@ -13,11 +50,17 @@ public partial class LevelManager : MonoBehaviour
     [SerializeField] private float _timerLimit = 5;
     [SerializeField] private int _cargoLimit = 3;
 
-    private float _timer;
+
     private int _level;
+
+    private Timer _cargoTimer = new Timer(1f);
+    private Timer _buildingTimer = new Timer(3f);
+
 
     private List<Cargo> _cargos = new List<Cargo>();
     private List<Cargo.CargoType> _possibleCargoTypes = new List<Cargo.CargoType>();
+    private List<Building> _buildings = new List<Building>();
+
     void Start()
     {
         for (int i = 0; i < Enum.GetNames(typeof(Cargo.CargoType)).Length; i++)
@@ -32,13 +75,47 @@ public partial class LevelManager : MonoBehaviour
 
     void Update()
     {
-        _timer += Time.deltaTime;
+        _cargoTimer.Tick(Time.deltaTime);
+        _buildingTimer.Tick(Time.deltaTime);
 
-        if( _timer > _timerLimit && _cargoLimit * Enum.GetNames(typeof(Cargo.CargoType)).Length > _cargos.Count)
+        if(_cargoTimer.IsPassed && _cargoLimit * Enum.GetNames(typeof(Cargo.CargoType)).Length > _cargos.Count)
         {
-            _timer = 0;
+            _cargoTimer.Reset();
             AddRandomCargoForLevel();
         }
+
+        if(_buildingTimer.IsPassed )
+        {
+            _buildingTimer.Reset();
+            AddBuildingForLevel();
+        }
+    }
+
+    private void AddBuildingForLevel()
+    {
+        Vector3 position;
+        Quaternion rotation;
+
+        int tries = 0;
+        while (!TryFindBuildingTransform(out position, out rotation ) && tries < 50)
+        {
+            tries++;
+        }
+        if (tries < 50)
+        {
+            _buildings.Add(AddNewBuilding(position, rotation));
+        }
+    }
+
+    private Building AddNewBuilding(Vector3 position, Quaternion rotation)
+    {
+        var building = Instantiate<Building>(PrefabManager.Instance.Building, position, rotation);
+        return building;
+    }
+
+    private void AddOrderForLevel()
+    {
+        
     }
 
     private void AddRandomCargoForLevel()
@@ -59,25 +136,59 @@ public partial class LevelManager : MonoBehaviour
         }
     }
 
+    private bool TryFindBuildingTransform(out Vector3 position, out Quaternion rotation)
+    {
+        position = Vector3.zero;
+        rotation = Quaternion.identity;
+        Ray ray = GetViewPortToWorldPositionRay();
+        if (Physics.Raycast(ray, out var hit))
+        {
+            if (hit.collider.CompareTag("Blocker"))
+            {
+                return false;
+            }
+            else
+            {
+                position = hit.point;
+                position.y = 1;
+
+                rotation = Quaternion.Euler(0, Random.Range(0,4) * 90, 0);
+                return true;
+            }
+
+        }
+        return false;
+
+    }
+
     private bool TryFindCargoPosition(out Vector3 result)
     {
         result = Vector3.zero;
-        Vector3 viewportPosition = new Vector3(Random.value, Random.value, 0);
-        var ray = Camera.main.ViewportPointToRay(viewportPosition);
+        Ray ray = GetViewPortToWorldPositionRay();
         if (Physics.Raycast(ray, out var hit))
         {
-            if(hit.collider.CompareTag("Blocker"))
+            if (hit.collider.CompareTag("Blocker"))
             {
                 return false;
             }
             else
             {
                 result = hit.point;
+                result.y = 0;
                 return true;
             }
-            
+
         }
         return false;
+    }
+
+    private static Ray GetViewPortToWorldPositionRay()
+    {
+        float randomX = Random.value * 0.9f + 0.05f;
+        float randomY = Random.value * 0.9f + 0.05f;
+        Vector3 viewportPosition = new Vector3(randomX, randomY, 0);
+        var ray = Camera.main.ViewportPointToRay(viewportPosition);
+        return ray;
     }
 
     private void AddRandomCargo()

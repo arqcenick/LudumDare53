@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1651222015449818334}
-  - component: {fileID: 2357381358668577046}
+  - component: {fileID: 5648810051332579852}
   m_Layer: 7
   m_Name: Sphere
   m_TagString: Blocker
@@ -32,8 +32,8 @@ Transform:
   m_Father: {fileID: 7881717152779291784}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &2357381358668577046
-SphereCollider:
+--- !u!65 &5648810051332579852
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -41,9 +41,9 @@ SphereCollider:
   m_GameObject: {fileID: 5444388314372038367}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 4
+  m_Size: {x: 4, y: 4, z: 4}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7881717152779291779
 GameObject:
@@ -158,4 +158,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _colliders:
   - {fileID: 7881717152779291789}
-  - {fileID: 2357381358668577046}
+  - {fileID: 5648810051332579852}

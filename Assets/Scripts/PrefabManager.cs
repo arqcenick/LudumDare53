@@ -8,6 +8,7 @@ public class PrefabManager : MonoBehaviour
 
     public Carriage Carriage;
     public Cargo Cargo;
+    public Building Building;
 
     private void Awake()
     {

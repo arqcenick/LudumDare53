@@ -61,9 +61,11 @@ public class Locomotive : PlayerComponent
     private void OnTriggerEnter(Collider other)
     {
         other.gameObject.TryGetComponent<Cargo>(out var cargo);
-        cargo.SetCollidersEnabled(false);
+        
         if (cargo != null)
         {
+            cargo.SetCollidersEnabled(false);
+
             Debug.Log("Cargo event fired!");
             player.PlayerEvents.OnCargoCollected?.Invoke(cargo);
         }
