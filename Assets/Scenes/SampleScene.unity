@@ -2239,6 +2239,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 323464540}
     m_Modifications:
+    - target: {fileID: 1911963631128540302, guid: 6d309b8176c0637468ca08860ec2ef46, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 66d061c1605916d44b213e73b5842f55, type: 2}
     - target: {fileID: 2325718833898826614, guid: 6d309b8176c0637468ca08860ec2ef46, type: 3}
       propertyPath: m_Name
       value: Locomotive

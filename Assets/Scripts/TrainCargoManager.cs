@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DG.Tweening;
+using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 
@@ -44,7 +45,11 @@ public class TrainCargoManager : PlayerComponent
 
             for (int i = 0; i < cargoList.Count; i++)
             {
-                _cargoHolders[i].SetCargoView(cargoList[cargoList.Count - i - 1]);
+                var c = cargoList[cargoList.Count - i - 1];
+
+                c.transform.SetParent(_cargoHolders[i].transform);
+                c.transform.DOLocalJump(_cargoHolders[i].CargoPosition, 10, 1, 1f);
+                //_cargoHolders[i].SetCargoView(cargoList[cargoList.Count - i - 1]);
             }
         }
 
