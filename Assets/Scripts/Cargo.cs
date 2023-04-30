@@ -1,12 +1,17 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Cargo : MonoBehaviour
 {
-    private Renderer _renderer;
+
+    [SerializeField] private Collider[] _colliders;
+
     public CargoType CurrentCargoType => _type;
     private CargoType _type;
+    private Renderer _renderer;
+
     public enum CargoType
     {
         Red,
@@ -40,5 +45,13 @@ public class Cargo : MonoBehaviour
 
         }
         _type = type;
+    }
+
+    internal void SetCollidersEnabled(bool isEnabled)
+    {
+        foreach (var collider in _colliders)
+        {
+            collider.enabled = isEnabled;
+        }
     }
 }

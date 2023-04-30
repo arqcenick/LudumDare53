@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEngine;
 
 public class TrainCargoManager : PlayerComponent
 {
@@ -37,7 +38,11 @@ public class TrainCargoManager : PlayerComponent
         {
             if (cargos.Count == _cargoCapacity)
             {
-                cargos.Dequeue();
+                var lastCargo = cargos.Dequeue();
+                lastCargo.transform.parent = null;
+
+                lastCargo.transform.DOJump(lastCargo.transform.position -lastCargo.transform.forward * 0.5f, 5,1, 0.75f).OnComplete(() => { Destroy(lastCargo.gameObject); });
+
             }
             cargos.Enqueue(cargo);
 
@@ -48,7 +53,8 @@ public class TrainCargoManager : PlayerComponent
                 var c = cargoList[cargoList.Count - i - 1];
 
                 c.transform.SetParent(_cargoHolders[i].transform);
-                c.transform.DOLocalJump(_cargoHolders[i].CargoPosition, 10, 1, 1f);
+                c.transform.DOLocalJump(_cargoHolders[i].CargoPosition, 5, 1, 0.8f);
+                c.transform.DOLocalRotate(Vector3.zero, 1);
                 //_cargoHolders[i].SetCargoView(cargoList[cargoList.Count - i - 1]);
             }
         }

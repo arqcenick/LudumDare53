@@ -20,7 +20,7 @@ public class Carriage : PlayerComponent
 
     private void SetCargo(Cargo cargo)
     {
-        Debug.Log("Cargo event received!");
+        //Debug.Log("Cargo event received!");
     }
 
     void FixedUpdate()
