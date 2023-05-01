@@ -2,7 +2,9 @@ using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.Rendering.PostProcessing;
 
 public class CameraController : MonoBehaviour
@@ -21,13 +23,20 @@ public class CameraController : MonoBehaviour
 
     private void HandlePlayerDeath(LevelManager.DeathReason dr)
     {
-        var dof = processVolume.profile.GetSetting<DepthOfField>();
-        dof.enabled.value = true;
-        DOTween.To(() => dof.focalLength, x => dof.focalLength.value = x, 107.0f, 3f);
-        if(dr== LevelManager.DeathReason.Collision)
+        Debug.Log(dr);
+        Debug.Log("Death 2");
+        var volume = FindObjectOfType<Volume>();
+        if (volume != null)
         {
-            transform.DOShakePosition(0.2f, 1, 10, 90, false, true, ShakeRandomnessMode.Harmonic);
+            //volume.profile.GetComponent<DepthOfField>();
         }
+        //var dof = processVolume.profile.GetSetting<DepthOfField>();
+        //dof.enabled.value = true;
+        //DOTween.To(() => dof.focalLength, x => dof.focalLength.value = x, 107.0f, 3f);
+        //if(dr== LevelManager.DeathReason.Collision)
+        //{
+        //    transform.DOShakePosition(0.2f, 1, 10, 90, false, true, ShakeRandomnessMode.Harmonic);
+        //}
     }
 
     private void HandleDayProgressed(float obj)

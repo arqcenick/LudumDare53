@@ -23,6 +23,8 @@ public class Locomotive : PlayerComponent
         _carriages.Add(GetComponent<Carriage>());
         player.PlayerEvents.OnPlayerDeathByCollision += HandlePlayerDeath;
         player.PlayerEvents.OnPlayerDeathByOutofBounds += HandlePlayerDeath;
+        player.PlayerEvents.OnPlayerDeathByOrderFailure += HandlePlayerDeath;
+
 
         player.PlayerEvents.OnDayPassed += HandleDayPassed;
 

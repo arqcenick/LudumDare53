@@ -6,6 +6,7 @@ public partial class LevelManager
     {
         Collision,
         OOB,
+        OrderFail,
     }
     public struct LevelEvents
     {

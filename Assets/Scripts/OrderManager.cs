@@ -52,5 +52,6 @@ public class OrderManager
     {
         public List<Cargo.CargoType> CargoTypes;
         public float TimeLimit;
+        public float CreationTime;
     }
 }

@@ -26,6 +26,7 @@ public class Carriage : PlayerComponent
         _isAlive = true;
         player.PlayerEvents.OnPlayerDeathByCollision += HandlePlayerDeathByCollison;
         player.PlayerEvents.OnPlayerDeathByOutofBounds += HandlePlayerDeathByOOB;
+        player.PlayerEvents.OnPlayerDeathByOrderFailure += HandlePlayerDeathByOOB;
 
         _rigidbody = GetComponent<Rigidbody>();
         _rigidbody.velocity = Vector3.zero;

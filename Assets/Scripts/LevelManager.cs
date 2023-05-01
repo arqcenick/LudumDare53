@@ -15,6 +15,7 @@ public partial class LevelManager : MonoBehaviour
     [SerializeField] private float _timerLimit = 5;
     [SerializeField] private int _cargoLimit = 3;
     [SerializeField] private GameObject _plane;
+    private bool _isAlive;
 
 
     private int _level;
@@ -27,6 +28,7 @@ public partial class LevelManager : MonoBehaviour
     private List<Cargo> _cargos = new List<Cargo>();
     private List<Cargo.CargoType> _possibleCargoTypes = new List<Cargo.CargoType>();
     private List<Building> _buildings = new List<Building>();
+    private List<OrderComponent> _orders = new List<OrderComponent>();
 
     private Player Player;
 
@@ -40,7 +42,7 @@ public partial class LevelManager : MonoBehaviour
         _level = 1;
         LE.OnDayPassed?.Invoke(_level);
         LE.OnDayPassed += HandleDayPassed;
-
+        _isAlive = true;
         Player.PlayerEvents.OnCargoCollected += HandlePlayerCargoCollection;
         Player.PlayerEvents.OnOrderCompleted += HandlePlayerOrderCompleted;
         Player.PlayerEvents.OnPlayerDeathByCollision += HandlePlayerDeath;
@@ -83,18 +85,24 @@ public partial class LevelManager : MonoBehaviour
     private void HandlePlayerCargoCollection(Cargo cargo)
     {
         _cargos.Remove(cargo);
-        _possibleCargoTypes.Add(cargo.CurrentCargoType);
+        //_possibleCargoTypes.Add(cargo.CurrentCargoType);
         
     }
 
     private void HandlePlayerOrderCompleted(OrderComponent obj)
     {
         Destroy(obj);
+        _orders.Remove(obj);
         LE.OnOrderCompleted?.Invoke(obj);
     }
 
     void Update()
     {
+        if(!_isAlive)
+        {
+            return;
+        }
+
         _cargoTimer.Tick(Time.deltaTime);
         _buildingTimer.Tick(Time.deltaTime);
         _levelTimer.Tick(Time.deltaTime);
@@ -124,9 +132,7 @@ public partial class LevelManager : MonoBehaviour
                 }
             }
 
-            
-
-
+         
         }
 
         if (_levelTimer.IsPassed)
@@ -135,6 +141,16 @@ public partial class LevelManager : MonoBehaviour
             _levelTimer.Reset();
             Player.PlayerEvents.OnDayPassed?.Invoke();
             LE.OnDayPassed?.Invoke(_level);
+        }
+
+        foreach (var item in _orders)
+        {
+            if(Time.time > item.OrderData.CreationTime + item.OrderData.TimeLimit)
+            {
+                Player.PlayerEvents.OnPlayerDeathByOrderFailure?.Invoke();
+                LE.OnPlayerDeath?.Invoke(DeathReason.OrderFail);
+                return;
+            }
         }
 
     }
@@ -167,7 +183,13 @@ public partial class LevelManager : MonoBehaviour
         var orderComponent = building.AddComponent<OrderComponent>();
 
         orderComponent.OrderData = OrderManager.CreateNewOrder(Random.Range(0, _level * 3));
+        orderComponent.OrderData.CreationTime = Time.deltaTime;
         orderComponent.IsOrderActive = true;
+        _orders.Add(orderComponent);
+        foreach (var cargoType in orderComponent.OrderData.CargoTypes)
+        {
+            _possibleCargoTypes.Add(cargoType);
+        }
         LE.OnOrderCreated?.Invoke(orderComponent);
 
     }
