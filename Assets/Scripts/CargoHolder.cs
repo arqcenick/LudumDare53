@@ -7,6 +7,7 @@ public class CargoHolder : PlayerComponent
 {
     public Vector3 CargoPosition;
     private Renderer _renderer;
+    [SerializeField] public Transform CargoTransform;
 
     protected override void Awake()
     {

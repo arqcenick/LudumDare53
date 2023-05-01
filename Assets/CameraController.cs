@@ -19,7 +19,7 @@ public class CameraController : MonoBehaviour
         processVolume = GetComponent<PostProcessVolume>();
     }
 
-    private void HandlePlayerDeath()
+    private void HandlePlayerDeath(LevelManager.DeathReason dr)
     {
         var dof = processVolume.profile.GetSetting<DepthOfField>();
         dof.enabled.value = true;

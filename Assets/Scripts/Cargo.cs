@@ -19,6 +19,7 @@ public class Cargo : MonoBehaviour
         Red,
         Blue,
         Green,
+        None,
     }
 
     private void Awake()

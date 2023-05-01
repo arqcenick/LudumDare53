@@ -2,8 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using static Cargo;
 using Random = UnityEngine.Random;
 
 public partial class LevelManager : MonoBehaviour
@@ -16,9 +18,9 @@ public partial class LevelManager : MonoBehaviour
 
     private int _level;
 
-    private Timer _cargoTimer = new Timer(1f);
-    private Timer _buildingTimer = new Timer(3f);
-    private Timer _levelTimer = new Timer(10f);
+    private Timer _cargoTimer = new Timer(5f);
+    private Timer _buildingTimer = new Timer(13f);
+    private Timer _levelTimer = new Timer(60);
 
 
     private List<Cargo> _cargos = new List<Cargo>();
@@ -36,23 +38,44 @@ public partial class LevelManager : MonoBehaviour
     {
         _level = 1;
         LE.OnDayPassed?.Invoke(_level);
+        LE.OnDayPassed += HandleDayPassed;
+
         Player.PlayerEvents.OnCargoCollected += HandlePlayerCargoCollection;
         Player.PlayerEvents.OnOrderCompleted += HandlePlayerOrderCompleted;
         Player.PlayerEvents.OnPlayerDeathByCollision += HandlePlayerDeath;
+        Player.PlayerEvents.OnPlayerDeathByOutofBounds += HandlePlayerDeathOOB;
 
-        for (int i = 0; i < Enum.GetNames(typeof(Cargo.CargoType)).Length; i++)
+
+        for (int i = 0; i < Enum.GetNames(typeof(Cargo.CargoType)).Length - 1; i++)
         {
             var cargoType = (Cargo.CargoType)i;
-            for (int j = 0; j < _cargoLimit; j++)
+            for (int j = 0; j < _cargoLimit-1; j++)
             {
                 _possibleCargoTypes.Add(cargoType);
             }
         }
+
+        AddBuildingForLevel();
+        AddRandomCargoForLevel(_buildings[0].GetComponent<OrderComponent>().OrderData.CargoTypes[0]);
+    }
+
+    private void HandleDayPassed(int obj)
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            var cargoType = (Cargo.CargoType)i;
+            _possibleCargoTypes.Add(cargoType);
+        }
+    }
+
+    private void HandlePlayerDeathOOB()
+    {
+        LE.OnPlayerDeath?.Invoke(DeathReason.OOB);
     }
 
     private void HandlePlayerDeath()
     {
-        LE.OnPlayerDeath?.Invoke();
+        LE.OnPlayerDeath?.Invoke(DeathReason.Collision);
     }
 
     private void HandlePlayerCargoCollection(Cargo cargo)
@@ -84,7 +107,23 @@ public partial class LevelManager : MonoBehaviour
         if(_buildingTimer.IsPassed )
         {
             _buildingTimer.Reset();
-            AddBuildingForLevel();
+
+            if (_buildings.Count < _level * 3)
+            {
+                AddBuildingForLevel();
+            }
+            else
+            {
+                var emptyBuildings = _buildings.Where(x => (!x.GetComponent<OrderComponent>().IsOrderActive)).ToList();
+                if (emptyBuildings.Count > 0)
+                {
+                    AddOrderToBuildingForLevel(emptyBuildings[Random.Range(0, emptyBuildings.Count)]);
+                }
+            }
+
+            
+
+
         }
 
         if (_levelTimer.IsPassed)
@@ -124,15 +163,20 @@ public partial class LevelManager : MonoBehaviour
     {
         var orderComponent = building.GetComponent<OrderComponent>();
 
-        orderComponent.OrderData = OrderManager.CreateNewOrder(Random.Range(1, 6));
-
+        orderComponent.OrderData = OrderManager.CreateNewOrder(Random.Range(1, _level * 3));
+        orderComponent.IsOrderActive = true;
         LE.OnOrderCreated?.Invoke(orderComponent);
 
     }
 
-    private void AddRandomCargoForLevel()
+    private void AddRandomCargoForLevel(Cargo.CargoType color = CargoType.None)
     {
-        var color = _possibleCargoTypes[Random.Range(0, _possibleCargoTypes.Count)];
+        
+        if(color == CargoType.None)
+        {
+            color = _possibleCargoTypes[Random.Range(0, _possibleCargoTypes.Count)];
+        }
+
 
         Vector3 possiblePosition;
         int tries = 0;
@@ -197,8 +241,8 @@ public partial class LevelManager : MonoBehaviour
 
     private static Ray GetViewPortToWorldPositionRay()
     {
-        float randomX = Random.value * 0.9f + 0.05f;
-        float randomY = Random.value * 0.9f + 0.05f;
+        float randomX = Random.value * 0.8f + 0.1f;
+        float randomY = Random.value * 0.8f + 0.1f;
         Vector3 viewportPosition = new Vector3(randomX, randomY, 0);
         var ray = Camera.main.ViewportPointToRay(viewportPosition);
         return ray;

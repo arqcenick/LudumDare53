@@ -46,7 +46,7 @@ public class OrderManager
 
             cargoTypes.Add(chosenColor);
         }
-        orderData.TimeLimit = size * 10 + 5;
+        orderData.TimeLimit = size * 12 + 10;
         orderData.CargoTypes = cargoTypes;
 
         return orderData;

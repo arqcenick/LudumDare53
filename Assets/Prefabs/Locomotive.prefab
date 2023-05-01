@@ -162,6 +162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfa1a05ec83f62949a2298890e435113, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _carriageMesh: {fileID: 1213407033022362631}
   PulledCarriage: {fileID: 0}
 --- !u!114 &1311198813
 MonoBehaviour:
@@ -189,7 +190,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 4
   m_CollisionDetection: 0
 --- !u!1 &5557364676275263998
 GameObject:
@@ -299,6 +300,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: b82827da630837e48b43d94e76cf5a02, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 66d061c1605916d44b213e73b5842f55, type: 2}
     - target: {fileID: 919132149155446097, guid: b82827da630837e48b43d94e76cf5a02, type: 3}
       propertyPath: m_Name
       value: train_Body_GEO

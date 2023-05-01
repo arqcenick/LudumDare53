@@ -93,13 +93,14 @@ public class TrainCargoManager : PlayerComponent
         {
             var c = cargos[cargos.Count - i - 1];
             var seq = DOTween.Sequence();
-            c.transform.SetParent(_cargoHolders[i].transform);
+            c.transform.SetParent(_cargoHolders[i].CargoTransform);
             seq.Append(c.transform.DOLocalJump(_cargoHolders[i].CargoPosition, 5, 1, 0.8f));
             seq.Join(c.transform.DOLocalRotate(Vector3.zero, 1));
 
             c.Sequence = seq;
         }
 
+        orderComponent.IsOrderActive = false;
         player.PlayerEvents.OnOrderCompleted?.Invoke(orderComponent);
 
 
@@ -139,7 +140,7 @@ public class TrainCargoManager : PlayerComponent
             {
                 var c = cargos[cargos.Count - i - 1];
                 var seq = DOTween.Sequence();
-                c.transform.SetParent(_cargoHolders[i].transform);
+                c.transform.SetParent(_cargoHolders[i].CargoTransform);
                 seq.Append(c.transform.DOLocalJump(_cargoHolders[i].CargoPosition, 5, 1, 0.8f));
                 seq.Join(c.transform.DOLocalRotate(Vector3.zero, 1));
 

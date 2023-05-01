@@ -6,6 +6,8 @@ using UnityEngine;
 public class Carriage : PlayerComponent
 {
 
+    [SerializeField] private Transform _carriageMesh;
+
     private float _delayCoef = 0.3f;
 
     public Carriage PulledCarriage;
@@ -13,17 +15,27 @@ public class Carriage : PlayerComponent
     private bool _isAlive = true;
     private Rigidbody _rigidbody;
     private Vector3 _approximateVelocity;
+    private float _approximateRotation;
+    private float _lastRotation;
     private Vector3 _lastPosition;
+    private float _rotate;
 
     protected override void Start()
     {
         base.Start();
-        _isAlive = true;    
+        _isAlive = true;
         player.PlayerEvents.OnPlayerDeathByCollision += HandlePlayerDeathByCollison;
+        player.PlayerEvents.OnPlayerDeathByOutofBounds += HandlePlayerDeathByOOB;
+
         _rigidbody = GetComponent<Rigidbody>();
         _rigidbody.velocity = Vector3.zero;
 
 
+    }
+
+    private void HandlePlayerDeathByOOB()
+    {
+        _isAlive = false;
     }
 
     private void HandlePlayerDeathByCollison()
@@ -40,10 +52,34 @@ public class Carriage : PlayerComponent
         }
 
     }
+    private void Update()
+    {
+        if(_approximateRotation > 0)
+        {
+            _rotate = Mathf.Lerp(_rotate, 10f, 10 * Time.deltaTime);
+        }
+        else if(_approximateRotation < 0)
+        {
+            _rotate = Mathf.Lerp(_rotate, -10f, 10 * Time.deltaTime);
+        }
+        else
+        {
+            _rotate = Mathf.Lerp(_rotate, 0, 20 * Time.deltaTime);
+
+        }
+
+        var rot = _carriageMesh.localRotation.eulerAngles;
+        rot.z = Mathf.Lerp(rot.z, _rotate, 0.5f);
+        _carriageMesh.localRotation = Quaternion.Euler(rot.x, rot.y, _rotate);
+
+    }
 
     void FixedUpdate()
     {
+        _approximateRotation = (transform.rotation.eulerAngles.y - _lastRotation) / Time.deltaTime;
+
         _approximateVelocity = (transform.position - _lastPosition) / Time.fixedDeltaTime;
+
 
         if (!_isAlive)
         {
@@ -72,6 +108,7 @@ public class Carriage : PlayerComponent
             }
         }
         _lastPosition = transform.position;
+        _lastRotation = transform.rotation.eulerAngles.y;
 
     }
 

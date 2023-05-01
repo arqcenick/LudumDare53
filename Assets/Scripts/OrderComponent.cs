@@ -7,14 +7,10 @@ using UnityEngine;
 public class OrderComponent : MonoBehaviour
 {
     internal OrderManager.OrderData OrderData;
-
-    void Start()
+    public bool IsOrderActive;
+    private void Awake()
     {
-        
+        IsOrderActive = false;
     }
-
-    void Update()
-    {
-        
-    }
+    
 }

@@ -18,14 +18,22 @@ public class Locomotive : PlayerComponent
     protected override void Start()
     {
         base.Start();
-        _isAlive = true;
+        _isAlive = false;
         _rigidBody = GetComponent<Rigidbody>();
         _carriages.Add(GetComponent<Carriage>());
         player.PlayerEvents.OnPlayerDeathByCollision += HandlePlayerDeath;
+        player.PlayerEvents.OnPlayerDeathByOutofBounds += HandlePlayerDeath;
+
         player.PlayerEvents.OnDayPassed += HandleDayPassed;
+        Invoke("StartEngine", 1);
 
+
+    }
+
+    private void StartEngine()
+    {
+        _isAlive = true;
         AddCarriage();
-
     }
 
     private void HandleDayPassed()
@@ -65,7 +73,11 @@ public class Locomotive : PlayerComponent
             //_rigidBody.angularVelocity = Vector3.zero;
         }
         transform.Translate(Vector3.forward * Time.fixedDeltaTime * _speed);
-
+        var screenPos = Camera.main.WorldToViewportPoint(transform.position);
+        if (screenPos.x > 1.05 || screenPos.x < -0.05 || screenPos.y < -0.05|| screenPos.y > 1.05)
+        {
+            player.PlayerEvents.OnPlayerDeathByOutofBounds();
+        }
     }
 
     public void AddCarriage()

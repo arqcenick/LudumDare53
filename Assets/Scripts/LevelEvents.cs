@@ -2,13 +2,18 @@
 
 public partial class LevelManager
 {
+    public enum DeathReason
+    {
+        Collision,
+        OOB,
+    }
     public struct LevelEvents
     {
         public Action OnDeliveryComplete;
         public Action OnDeliveryFailed;
         public Action<float> OnDayProgressed;
         public Action<int> OnDayPassed;
-        public Action OnPlayerDeath;
+        public Action<DeathReason> OnPlayerDeath;
 
 
         public Action<OrderComponent> OnOrderCreated;
