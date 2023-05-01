@@ -25,6 +25,8 @@ public class Locomotive : PlayerComponent
         player.PlayerEvents.OnPlayerDeathByOutofBounds += HandlePlayerDeath;
 
         player.PlayerEvents.OnDayPassed += HandleDayPassed;
+
+
         Invoke("StartEngine", 1);
 
 

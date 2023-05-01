@@ -166,7 +166,7 @@ public partial class LevelManager : MonoBehaviour
     {
         var orderComponent = building.AddComponent<OrderComponent>();
 
-        orderComponent.OrderData = OrderManager.CreateNewOrder(Random.Range(1, _level * 3));
+        orderComponent.OrderData = OrderManager.CreateNewOrder(Random.Range(0, _level * 3));
         orderComponent.IsOrderActive = true;
         LE.OnOrderCreated?.Invoke(orderComponent);
 
