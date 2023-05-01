@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class GameManager : MonoBehaviour
     private LevelManager _levelManager;
     [SerializeField] private FadeScript fadeScript;
     [SerializeField] private Canvas _gameOverCanvas;
+    [SerializeField] private TextMeshProUGUI reasonText;
+    private LevelManager.DeathReason deathReason;
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
@@ -25,11 +28,11 @@ public class GameManager : MonoBehaviour
 
     
 
-    private void HandlePlayerDeath(LevelManager.DeathReason obj)
+    private void HandlePlayerDeath(LevelManager.DeathReason dr)
     {
         Invoke("FadeIin", 1.5f);
         Invoke("ShowGameOverScreen", 3f);
-
+        deathReason = dr;
     }
     private void FadeIin()
     {
@@ -41,7 +44,16 @@ public class GameManager : MonoBehaviour
         _gameOverCanvas.gameObject.SetActive(true);
         _gameOverCanvas.GetComponent<CanvasGroup>().DOFade(1, 1.5f);
 
+        string result = "";
 
+        if (deathReason == LevelManager.DeathReason.Collision)
+            result = "You crashed!";
+        else if (deathReason == LevelManager.DeathReason.OOB)
+            result = "You abondened your post!";
+        else if  (deathReason == LevelManager.DeathReason.OrderFail)
+            result = "Customer ran out of patience!";
+        
+        reasonText.text = result;
     }
 
     void Start()
