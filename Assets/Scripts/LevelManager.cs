@@ -266,8 +266,8 @@ public partial class LevelManager : MonoBehaviour
 
     private static Ray GetViewPortToWorldPositionRay()
     {
-        float randomX = Random.value * 0.8f + 0.1f;
-        float randomY = Random.value * 0.8f + 0.1f;
+        float randomX = Random.value * 0.7f + 0.15f;
+        float randomY = Random.value * 0.7f + 0.15f;
         Vector3 viewportPosition = new Vector3(randomX, randomY, 0);
         var ray = Camera.main.ViewportPointToRay(viewportPosition);
         return ray;
