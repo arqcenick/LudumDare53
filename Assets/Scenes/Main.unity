@@ -169,6 +169,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _timerLimit: 1
   _cargoLimit: 3
+  _plane: {fileID: 1034144145}
 --- !u!1 &323464539
 GameObject:
   m_ObjectHideFlags: 0
@@ -703,22 +704,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 323464540}
     m_Modifications:
-    - target: {fileID: 1213407033022362631, guid: 6d309b8176c0637468ca08860ec2ef46, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.99988073
-      objectReference: {fileID: 0}
-    - target: {fileID: 1213407033022362631, guid: 6d309b8176c0637468ca08860ec2ef46, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1213407033022362631, guid: 6d309b8176c0637468ca08860ec2ef46, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0.015445553
-      objectReference: {fileID: 0}
-    - target: {fileID: 1213407033022362631, guid: 6d309b8176c0637468ca08860ec2ef46, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 1.77
-      objectReference: {fileID: 0}
     - target: {fileID: 2325718833898826614, guid: 6d309b8176c0637468ca08860ec2ef46, type: 3}
       propertyPath: m_Name
       value: Locomotive
@@ -766,14 +751,6 @@ PrefabInstance:
     - target: {fileID: 2325718833898826616, guid: 6d309b8176c0637468ca08860ec2ef46, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2826302912838516163, guid: 6d309b8176c0637468ca08860ec2ef46, type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5557364676275263998, guid: 6d309b8176c0637468ca08860ec2ef46, type: 3}
-      propertyPath: m_Name
-      value: Colliderzone
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6d309b8176c0637468ca08860ec2ef46, type: 3}

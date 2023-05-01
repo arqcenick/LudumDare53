@@ -89,6 +89,7 @@ public partial class LevelManager : MonoBehaviour
 
     private void HandlePlayerOrderCompleted(OrderComponent obj)
     {
+        Destroy(obj);
         LE.OnOrderCompleted?.Invoke(obj);
     }
 
@@ -163,7 +164,7 @@ public partial class LevelManager : MonoBehaviour
 
     private void AddOrderToBuildingForLevel(Building building)
     {
-        var orderComponent = building.GetComponent<OrderComponent>();
+        var orderComponent = building.AddComponent<OrderComponent>();
 
         orderComponent.OrderData = OrderManager.CreateNewOrder(Random.Range(1, _level * 3));
         orderComponent.IsOrderActive = true;
