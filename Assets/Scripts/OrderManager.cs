@@ -39,11 +39,7 @@ public class OrderManager
         for (int i = 0; i < size; i++)
         {
 
-
-
             Cargo.CargoType chosenColor = possibleColors[Random.Range(0, possibleColors.Count)];
-
-
             cargoTypes.Add(chosenColor);
         }
         orderData.TimeLimit = size * 12 + 10;

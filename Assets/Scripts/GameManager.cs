@@ -10,11 +10,14 @@ public class GameManager : MonoBehaviour
 
     public LevelManager LevelManager => _levelManager;
     private LevelManager _levelManager;
+    [SerializeField] private FadeScript fadeScript;
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
         Instance = this;
-        SceneManager.LoadScene(1, LoadSceneMode.Additive);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1, LoadSceneMode.Additive);
+        fadeScript.FadeOut();
+
     }
 
     void Start()
