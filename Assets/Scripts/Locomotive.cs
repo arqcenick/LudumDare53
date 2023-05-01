@@ -52,10 +52,6 @@ public class Locomotive : PlayerComponent
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            AddCarriage();
-        }
     }
 
     void FixedUpdate()

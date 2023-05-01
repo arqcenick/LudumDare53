@@ -10,6 +10,7 @@ public class RetryScript : MonoBehaviour
 
     private void LoadScene()
     {
+        Destroy(GameManager.Instance.gameObject);
         SceneManager.LoadScene(1);
     }
 }
