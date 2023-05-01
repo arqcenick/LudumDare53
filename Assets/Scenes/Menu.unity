@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44658792, g: 0.49642283, b: 0.5748252, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1660,7 +1660,10 @@ MonoBehaviour:
 
     Begum Mutluer - 3D Art
 
-    Emin Hurricane - 3D Art'
+    Emin Mammadli - 3D Art
+
+    Nazlican
+    Eroglu Cetin - Music'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9dfc670fe1e212537b0c7945adb7ae7e, type: 2}
   m_sharedMaterial: {fileID: 3406396191041935519, guid: 9dfc670fe1e212537b0c7945adb7ae7e, type: 2}
@@ -1701,7 +1704,7 @@ MonoBehaviour:
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
-  m_paragraphSpacing: 80
+  m_paragraphSpacing: 42
   m_charWidthMaxAdj: 0
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
