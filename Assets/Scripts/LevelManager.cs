@@ -117,7 +117,7 @@ public partial class LevelManager : MonoBehaviour
             }
             else
             {
-                var emptyBuildings = _buildings.Where(x => (!x.GetComponent<OrderComponent>().IsOrderActive)).ToList();
+                var emptyBuildings = _buildings.Where(x => (x.GetComponent<OrderComponent>() == null)).ToList();
                 if (emptyBuildings.Count > 0)
                 {
                     AddOrderToBuildingForLevel(emptyBuildings[Random.Range(0, emptyBuildings.Count)]);

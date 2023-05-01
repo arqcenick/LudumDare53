@@ -24,6 +24,10 @@ public class CameraController : MonoBehaviour
         var dof = processVolume.profile.GetSetting<DepthOfField>();
         dof.enabled.value = true;
         DOTween.To(() => dof.focalLength, x => dof.focalLength.value = x, 107.0f, 3f);
+        if(dr== LevelManager.DeathReason.Collision)
+        {
+            transform.DOShakePosition(0.2f, 1, 10, 90, false, true, ShakeRandomnessMode.Harmonic);
+        }
     }
 
     private void HandleDayProgressed(float obj)
