@@ -10,6 +10,6 @@ public class RetryScript : MonoBehaviour
 
     private void LoadScene()
     {
-        SceneManager.LoadScene("UI");
+        SceneManager.LoadScene(1);
     }
 }

@@ -183,7 +183,7 @@ public partial class LevelManager : MonoBehaviour
         var orderComponent = building.AddComponent<OrderComponent>();
 
         orderComponent.OrderData = OrderManager.CreateNewOrder(Random.Range(0, _level * 3));
-        orderComponent.OrderData.CreationTime = Time.deltaTime;
+        orderComponent.OrderData.CreationTime = Time.time;
         orderComponent.IsOrderActive = true;
         _orders.Add(orderComponent);
         foreach (var cargoType in orderComponent.OrderData.CargoTypes)
