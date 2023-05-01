@@ -9,6 +9,8 @@ public class Cargo : MonoBehaviour
 
     [SerializeField] private Collider[] _colliders;
 
+    [SerializeField] public List<Color> _colors = new List<Color>();
+
     public CargoType CurrentCargoType => _type;
     private CargoType _type;
     private Renderer _renderer;
@@ -34,19 +36,7 @@ public class Cargo : MonoBehaviour
 
     public void SetCargoType(CargoType type)
     {
-        switch (type)
-        {
-            case CargoType.Red:
-                _renderer.material.color = Color.red;
-                break;
-            case CargoType.Blue:
-                _renderer.material.color = Color.blue;
-                break; 
-            case CargoType.Green:
-                _renderer.material.color = Color.green;
-                break;
-
-        }
+        _renderer.material.color = _colors[(int)type];
         _type = type;
     }
 

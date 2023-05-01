@@ -43,8 +43,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 4, y: 4, z: 4}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 4, y: 3, z: 4}
+  m_Center: {x: 0, y: 0, z: 0.089018084}
 --- !u!1 &7881717152779291779
 GameObject:
   m_ObjectHideFlags: 0
@@ -117,6 +117,10 @@ MonoBehaviour:
   _colliders:
   - {fileID: 7881717152779291789}
   - {fileID: 5648810051332579852}
+  _colors:
+  - {r: 0.40970984, g: 0.8773585, b: 0.80858666, a: 1}
+  - {r: 1, g: 0.5330188, b: 0.5790654, a: 1}
+  - {r: 0.4198113, g: 0.4359575, b: 1, a: 1}
 --- !u!1001 &4518509930982539307
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -182,7 +186,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: ea88a795da701f54eba5ae259f874288, type: 3}
       propertyPath: m_Materials.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: ea88a795da701f54eba5ae259f874288, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -191,7 +195,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: ea88a795da701f54eba5ae259f874288, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
-      objectReference: {fileID: 2100000, guid: 3037eba9017aba54ca456a05632416ff, type: 2}
+      objectReference: {fileID: 2100000, guid: 9e87d890e128ed242ab27e7ae44d3d19, type: 2}
     - target: {fileID: -7511558181221131132, guid: ea88a795da701f54eba5ae259f874288, type: 3}
       propertyPath: m_Materials.Array.data[2]
       value: 

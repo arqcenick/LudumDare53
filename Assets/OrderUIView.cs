@@ -49,19 +49,7 @@ public class OrderUIView : MonoBehaviour
         foreach (var cargoType in reversed)
         {
             Color color = Color.white;
-
-            switch (cargoType)
-            {
-                case CargoType.Red:
-                    color = Color.red;
-                    break;
-                case CargoType.Blue:
-                    color = Color.blue;
-                    break;
-                case CargoType.Green:
-                    color = Color.green;
-                    break;
-            }
+            color = PrefabManager.Instance.Cargo._colors[(int) cargoType];
 
             Indicators[count].color = color;
             count++;

@@ -6,6 +6,7 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using static Cargo;
+using Color = UnityEngine.Color;
 using Random = UnityEngine.Random;
 
 public partial class LevelManager : MonoBehaviour
@@ -15,14 +16,17 @@ public partial class LevelManager : MonoBehaviour
     [SerializeField] private float _timerLimit = 5;
     [SerializeField] private int _cargoLimit = 3;
     [SerializeField] private GameObject _plane;
+
+
+
     private bool _isAlive;
 
 
     private int _level;
 
-    private Timer _cargoTimer = new Timer(5f);
-    private Timer _buildingTimer = new Timer(13f);
-    private Timer _levelTimer = new Timer(60);
+    private Timer _cargoTimer = new Timer(4.5f);
+    private Timer _buildingTimer = new Timer(10f);
+    private Timer _levelTimer = new Timer(50);
 
 
     private List<Cargo> _cargos = new List<Cargo>();
@@ -121,7 +125,14 @@ public partial class LevelManager : MonoBehaviour
 
             if (_buildings.Count < _level * 3)
             {
-                AddBuildingForLevel();
+                if(!AddBuildingForLevel())
+                {
+                    var emptyBuildings = _buildings.Where(x => (x.GetComponent<OrderComponent>() == null)).ToList();
+                    if (emptyBuildings.Count > 0)
+                    {
+                        AddOrderToBuildingForLevel(emptyBuildings[Random.Range(0, emptyBuildings.Count)]);
+                    }
+                }
             }
             else
             {
@@ -155,7 +166,7 @@ public partial class LevelManager : MonoBehaviour
 
     }
 
-    private void AddBuildingForLevel()
+    private bool AddBuildingForLevel()
     {
         Vector3 position;
         Quaternion rotation;
@@ -168,12 +179,18 @@ public partial class LevelManager : MonoBehaviour
         if (tries < 50)
         {
             _buildings.Add(AddNewBuilding(position, rotation));
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
     private Building AddNewBuilding(Vector3 position, Quaternion rotation)
     {
-        var building = Instantiate<Building>(PrefabManager.Instance.Building, position, rotation);
+        var bs = PrefabManager.Instance.Buildings;
+        var building = Instantiate<Building>(bs[Random.Range(0, bs.Length)], position, rotation);
         AddOrderToBuildingForLevel(building);
         return building;
     }
@@ -205,12 +222,12 @@ public partial class LevelManager : MonoBehaviour
 
         Vector3 possiblePosition;
         int tries = 0;
-        while(!TryFindCargoPosition(out possiblePosition) && tries < 50)
+        while(!TryFindCargoPosition(out possiblePosition) && tries < 100)
         {
             tries++;
         }
 
-        if(tries < 50)
+        if(tries < 100)
         {
             _cargos.Add(AddNewCargo(possiblePosition, color));
             _possibleCargoTypes.Remove(color);
@@ -288,6 +305,7 @@ public partial class LevelManager : MonoBehaviour
         var cargo = Instantiate<Cargo>(PrefabManager.Instance.Cargo);
         cargo.transform.SetParent(transform, false);
         cargo.transform.position = position;
+        cargo.transform.rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
         cargo.SetCargoType(cargoType);
         return cargo;
 

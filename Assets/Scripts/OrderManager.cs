@@ -26,6 +26,7 @@ public class OrderManager
         {
             possibleColors.Add((Cargo.CargoType)i);
         }
+
         if (complexity == 0)
         {
             possibleColors.RemoveAt(Random.Range(0, 3));
@@ -36,6 +37,7 @@ public class OrderManager
         {
             possibleColors.RemoveAt(Random.Range(0, 3));
         }
+
         for (int i = 0; i < size; i++)
         {
 
