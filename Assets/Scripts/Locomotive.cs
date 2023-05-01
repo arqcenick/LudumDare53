@@ -63,14 +63,17 @@ public class Locomotive : PlayerComponent
         if (Input.GetKey(KeyCode.D))
         {
             transform.Rotate(0, Time.fixedDeltaTime * _rotationSpeed, 0);
+            player.PlayerEvents.OnPlayerTurning?.Invoke(ParticleEffectController.Direction.Right);
         }
         else if(Input.GetKey(KeyCode.A))
         {
             transform.Rotate(0, -Time.fixedDeltaTime * _rotationSpeed, 0);
+            player.PlayerEvents.OnPlayerTurning?.Invoke(ParticleEffectController.Direction.Left);
+
         }
         else
         {
-            //_rigidBody.angularVelocity = Vector3.zero;
+            player.PlayerEvents.OnPlayerTurning?.Invoke(ParticleEffectController.Direction.Forward);
         }
         transform.Translate(Vector3.forward * Time.fixedDeltaTime * _speed);
         var screenPos = Camera.main.WorldToViewportPoint(transform.position);

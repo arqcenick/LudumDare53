@@ -14,6 +14,7 @@ public partial class LevelManager : MonoBehaviour
 
     [SerializeField] private float _timerLimit = 5;
     [SerializeField] private int _cargoLimit = 3;
+    [SerializeField] private GameObject _plane;
 
 
     private int _level;
@@ -75,6 +76,7 @@ public partial class LevelManager : MonoBehaviour
 
     private void HandlePlayerDeath()
     {
+        _plane.layer = LayerMask.NameToLayer("TrainKinematic");
         LE.OnPlayerDeath?.Invoke(DeathReason.Collision);
     }
 

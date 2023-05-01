@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 public struct PlayerEvents
 {
@@ -8,6 +9,7 @@ public struct PlayerEvents
     public Action<OrderComponent> OnOrderCompleted;
     public Action<OrderComponent> OnOrderDropoffPointHit;
     public Action OnPlayerDeathByCollision;
+    public Action<ParticleEffectController.Direction> OnPlayerTurning;
     public Action OnPlayerDeathByOutofBounds;
     public Action OnDayPassed;
 
