@@ -41,7 +41,7 @@ public class CameraController : MonoBehaviour
 
     private void HandleDayProgressed(float obj)
     {
-        _zoomLevel += obj * 0.0002f;
+        _zoomLevel += 0.033f * Time.deltaTime;
         Camera.main.orthographicSize = _zoomLevel;
     }
 

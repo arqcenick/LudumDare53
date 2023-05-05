@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private FadeScript fadeScript;
     [SerializeField] private Canvas _gameOverCanvas;
     [SerializeField] private TextMeshProUGUI reasonText;
+    [SerializeField] private TextMeshProUGUI scoreText;
     private LevelManager.DeathReason deathReason;
     private void Awake()
     {
@@ -43,7 +44,7 @@ public class GameManager : MonoBehaviour
     {
         _gameOverCanvas.gameObject.SetActive(true);
         _gameOverCanvas.GetComponent<CanvasGroup>().DOFade(1, 1.5f);
-
+        
         string result = "";
 
         if (deathReason == LevelManager.DeathReason.Collision)
@@ -52,7 +53,8 @@ public class GameManager : MonoBehaviour
             result = "You abondened your post!";
         else if  (deathReason == LevelManager.DeathReason.OrderFail)
             result = "Customer ran out of patience!";
-        
+
+        scoreText.text = "Score: " + (FindFirstObjectByType<ScoreScript>().Score * 10).ToString("#0");
         reasonText.text = result;
     }
 
